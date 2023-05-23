@@ -28,19 +28,6 @@ void SpriteSheetGraphicsComponent::setPosition(float _X, float _Y)
 	spriteSheet.getSprite().setPosition(_X, _Y);
 }
 
-void SpriteGraphicsComponent::update(Game* _Game, Entity* _Ent, float _Elapsed)
-{
-	auto position = _Ent->getPosition();
-	sprite.setPosition(position.x, position.y);
-}
-
-void SpriteSheetGraphicsComponent::update(Game* _Game, Entity* _Ent, float _Elapsed)
-{
-	auto position = _Ent->getPosition();
-	spriteSheet.setSpritePosition(sf::Vector2f(position.x, position.y));
-	spriteSheet.update(_Elapsed);
-}
-
 sf::Sprite& SpriteGraphicsComponent::getSprite()
 {
 	return sprite;

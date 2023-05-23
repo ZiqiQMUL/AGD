@@ -1,12 +1,14 @@
 #pragma once
+#include "Components.h"
 
 class Game;
 class Entity;
 
-class LogicComponent
+class LogicComponent :public Component
 {
 public:
 	virtual void update(Game* _Game, Entity* _Ent, float _Elapsed) = 0;
+	ComponentID getID()override { return ComponentID::LOGIC; }
 };
 
 class PlayerStateComponent :public LogicComponent

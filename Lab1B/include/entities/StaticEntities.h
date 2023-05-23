@@ -9,7 +9,7 @@ class Potion : public Entity
 {
 public:
 	Potion() : Entity(EntityType::POTION) {
-		collider = std::make_shared<ColliderComponent>();
+		addComponent(std::make_shared<ColliderComponent>());
 	}
 	~Potion() {}
 
@@ -19,22 +19,17 @@ public:
 		Entity::init(textureFile, gc);
 
 		// VIII.C (1/2) Set the top left and bottom right corners of the bounding box for this entity.
-		collider->init(position->getPosition(), graphics->getSize());
-	}
-
-	virtual void update(Game* game, float elapsed = 1.0f) override { }
-	virtual void draw(Window* window) override
-	{
-		Entity::draw(window);
-		window->draw(collider->getDrawableRect());
+		dynamic_cast<ColliderComponent*>(getComponent(ComponentID::COLLIDER))
+			->init(
+				dynamic_cast<const PositionComponent*>(getComponent(ComponentID::POSITION))->getPosition(), 
+				dynamic_cast<const GraphicsComponent*>(getComponent(ComponentID::GRAPHICS))->getSize()
+			);
 	}
 
 	int getHealth() const { return potionHealth; }
-	std::shared_ptr<ColliderComponent> getColliderComp()override { return collider; }
 
 protected:
 	const int potionHealth = 10;
-	std::shared_ptr<ColliderComponent> collider;
 };
 
 
@@ -42,7 +37,7 @@ class Log : public Entity
 {
 public:
 	Log() : Entity(EntityType::LOG) {
-		collider = std::make_shared<ColliderComponent>();
+		addComponent(std::make_shared<ColliderComponent>());
 	}
 	~Log() {}
 
@@ -52,21 +47,15 @@ public:
 		Entity::init(textureFile, gc);
 
 		// VIII.C (2/2) Set the top left and bottom right corners of the bounding box for this entity.
-		collider->init(position->getPosition(), graphics->getSize());
+		dynamic_cast<ColliderComponent*>(getComponent(ComponentID::COLLIDER))
+			->init(
+				dynamic_cast<const PositionComponent*>(getComponent(ComponentID::POSITION))->getPosition(), 
+				dynamic_cast<const GraphicsComponent*>(getComponent(ComponentID::GRAPHICS))->getSize()
+			);
 	}
-
-	virtual void update(Game* game, float elapsed = 1.0f) override {}
-	virtual void draw(Window* window) override
-	{
-		Entity::draw(window);
-		window->draw(collider->getDrawableRect());
-	}
-
-	std::shared_ptr<ColliderComponent> getColliderComp()override { return collider; }
 
 	int getWood() const { return woodAdded; }
 
 protected:
 	const int woodAdded = 15;
-	std::shared_ptr<ColliderComponent> collider;
 };

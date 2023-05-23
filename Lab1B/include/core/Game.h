@@ -5,6 +5,7 @@
 #include "../entities/Player.h"
 
 class GameInputHandler;
+class System;
 
 class Game
 {
@@ -14,7 +15,7 @@ public:
 	const float tileScale = 2.0f;
 	const float itemScale = 1.0f;
 
-	Game();
+	Game(bool _Debug = false);
 	~Game();
 
 	void init(std::vector<std::string> lines);
@@ -42,6 +43,7 @@ public:
 	template <typename T>
 	std::shared_ptr<T> buildEntityAt(const std::string& filename, int col, int row);
 
+	void bigArray(std::vector<std::shared_ptr<System>> _Systems, float _Elapsed);
 
 private:
 
@@ -67,6 +69,9 @@ private:
 
 	// V.A Declare a unique pointer to an Input Handler object for this class.
 	std::unique_ptr<GameInputHandler> inputHandler;
+
+	std::vector<std::shared_ptr<System>>  logicSystems;
+	std::vector<std::shared_ptr<System>>  graphicsSystems;
 
 };
 

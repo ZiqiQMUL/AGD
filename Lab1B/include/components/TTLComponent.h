@@ -1,12 +1,14 @@
 #pragma once
+#include "Components.h"
 
-class TTLComponent
+class TTLComponent :public Component
 {
 public:
 	TTLComponent() = delete;
 	TTLComponent(int _TTL) :ttl(_TTL) {}
-	void update(class Game* _Game, class Entity* _Ent, float _Elapsed) { if (ttl > 0) --ttl; else ttl = 0; }
 	int getTTL()const { return ttl; }
+	void tick() { if (ttl > 0) --ttl; else ttl = 0; }
+	ComponentID getID()override { return ComponentID::TTL; }
 private:
 	int ttl;
 };

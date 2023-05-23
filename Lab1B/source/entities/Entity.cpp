@@ -2,6 +2,7 @@
 #include "../../include/graphics/Window.h"
 #include "../../include/components/PositionComponent.h"
 #include "../../include/components/GraphicsComponent.h"
+#include "../../include/components/ColliderComponent.h"
 #include <iostream>
 
 
@@ -11,7 +12,7 @@ Entity::Entity() :
 	// X.B (1/2) Add the initialization the deleted flag to false
 	deleted(false)
 {
-	position = std::make_unique<PositionComponent>();
+	addComponent(std::make_shared<PositionComponent>());
 }
 
 Entity::Entity(EntityType et) :
@@ -20,49 +21,52 @@ Entity::Entity(EntityType et) :
 	// X.B (2/2) Add the initialization the deleted flag to false
 	deleted(false)
 {
-	position = std::make_unique<PositionComponent>();
+	addComponent(std::make_shared<PositionComponent>());
 }
 
 Entity::~Entity()
 {
 }
 
-void Entity::update(Game* game, float elapsed)
-{
-	graphics->update(game, this, elapsed);
-}
-
-
-
-void Entity::draw(Window* window)
-{
-	window->draw(graphics->getSprite());
-}
-
 void Entity::init(const std::string& initFile, std::shared_ptr<GraphicsComponent> gc)
 {
-	graphics = gc;
+	addComponent(gc);
+	auto graphics = dynamic_cast<GraphicsComponent*>(getComponent(ComponentID::GRAPHICS));
+	auto pos = dynamic_cast<const PositionComponent*>(getComponent(ComponentID::POSITION));
 	graphics->init(initFile);
-	graphics->setPosition(position->getPosition().x, position->getPosition().y);
+	graphics->setPosition(pos->getPosition().x, pos->getPosition().y);
 }
-
-void Entity::setPosition(float x, float y)
-{
-	position->setPosition(x, y);
-}
-
 
 const sf::Vector2f& Entity::getSpriteScale() const
 {
+	auto graphics = dynamic_cast<const GraphicsComponent*>(getComponent(ComponentID::GRAPHICS));
 	return graphics->getSpriteScale();
 }
 
 sf::Vector2i Entity::getTextureSize() const
 {
+	auto graphics = dynamic_cast<const GraphicsComponent*>(getComponent(ComponentID::GRAPHICS));
 	return graphics->getTextureSize();
 }
 
-const Vector2f& Entity::getPosition()const
+const Component* Entity::getComponent(ComponentID _ID)const
 {
-	return position->getPosition();
+	return components.at(_ID).get();
+}
+
+Component* Entity::getComponent(ComponentID _ID)
+{
+	return components[_ID].get();
+}
+
+void Entity::addComponent(std::shared_ptr<Component> _CompPtr)
+{
+	auto id = _CompPtr->getID();
+	components[id] = _CompPtr;
+	compSet.turnOnBit(static_cast<uint32_t>(id));
+}
+
+bool Entity::hasComponent(Bitmask _Mask)
+{
+	return compSet.contains(_Mask);
 }

@@ -1,7 +1,8 @@
 #pragma once
 #include "../utils/Rectangle.h"
+#include "Components.h"
 
-class ColliderComponent
+class ColliderComponent :public Component
 {
 public:
 	ColliderComponent() = default;
@@ -21,12 +22,12 @@ public:
 		return boundingBox.getDrawableRect();
 	}
 
-	void update(Game* _Game, Entity* _Ent, float _Elapsed)
+	void setBox(const Vector2f& _Position)
 	{
-		auto position = _Ent->getPosition();
-		boundingBox.setTopLeft(position);
-		boundingBox.setBottomRight(position + bboxSize);
+		boundingBox.setTopLeft(_Position);
+		boundingBox.setBottomRight(_Position + bboxSize);
 	}
+	ComponentID getID()override { return ComponentID::COLLIDER; }
 
 private:
 	Rectangle boundingBox;

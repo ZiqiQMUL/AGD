@@ -1,6 +1,7 @@
 #include "../../include/components/LogicComponent.h"
 #include "../../include/core/Game.h"
 #include "../../include/entities/Fire.h"
+#include "../../include/components/VelocityComponent.h"
 #include "../../include/components/GraphicsComponent.h"
 
 void PlayerStateComponent::addWood(int w)
@@ -13,7 +14,7 @@ void PlayerStateComponent::addWood(int w)
 void PlayerStateComponent::update(Game* _Game, Entity* _Ent, float _Elapsed)
 {
 	bool isWalking = false;
-	auto graphics = _Ent->getGraphicsComp();
+	auto graphics = dynamic_cast<GraphicsComponent*>(_Ent->getComponent(ComponentID::GRAPHICS));
 	if (graphics == nullptr)
 	{
 		if(_Ent!=_Game->getPlayer().get())
@@ -21,7 +22,7 @@ void PlayerStateComponent::update(Game* _Game, Entity* _Ent, float _Elapsed)
 		else throw std::exception("Player should contain GraphicsComponent.");
 	}
 
-	auto velocity = dynamic_cast<Player*>(_Ent)->getVelocityComp();
+	auto velocity = dynamic_cast<const VelocityComponent*>(_Ent->getComponent(ComponentID::VELOCITY));
 	if (velocity->getVelocity().x > 0)
 	{
 		isWalking = true;

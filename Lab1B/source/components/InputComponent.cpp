@@ -1,6 +1,7 @@
 #include "../../include/components/InputComponent.h"
 #include "../../include/components/VelocityComponent.h"
 #include "../../include/core/Game.h"
+#include "../../include/core/InputHandler.h"
 
 PlayerInputComponent::PlayerInputComponent()
 {
