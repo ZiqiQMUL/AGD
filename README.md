@@ -58,3 +58,6 @@ The ‘player’ entity managed by the ‘Player’ class, plays a vital role in
 In the ‘Game::update’ method, the game checks for any collision between the player and other entities. If a collision is detected, it fetches the appropriate collision callback function for that entity type from the collisionCallbacks map and invokes it, which modifies the game state as necessary.
 
 So, our Game class orchestrates the interaction logic between different entities in the game, while the ‘Player’ class offers the necessary structure to handle the player's actions, including collision detection and response.
+
+## Video Presentation
+https://www.youtube.com/watch?v=LBzKiXeEIj0
