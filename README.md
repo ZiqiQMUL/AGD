@@ -1,6 +1,10 @@
 # Coursework of Advanced Game Development
 
-This is a C++ game demo based on SFML. 
+This is a C++ game demo based on SFML.
+
+## Dependencies
+
+The project is built with [SFML 2.5.1](https://www.sfml-dev.org/) linked statically (`SFML_STATIC`). Because SFML's `sfml-graphics` and `sfml-window` modules use **OpenGL** internally for hardware-accelerated 2D rendering, **OpenGL is a required dependency** of this project even though no OpenGL API calls appear directly in the application source code. The Windows system library `opengl32.lib` is therefore listed as a linker dependency in all four build configurations (Debug/Release × Win32/x64) in `CW1_b.vcxproj`.
 
 W, A, S, D: Move around;
 Space: Chop wood;
